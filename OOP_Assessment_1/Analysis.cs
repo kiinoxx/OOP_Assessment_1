@@ -1,50 +1,81 @@
-﻿namespace OOP_Assessment_1_Base_Code
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace OOP_Assessment_1_Base_Code
 {
     public class Analysis
     {
-        int len;
-
         public List<int> textAnalysis(string input)
         {
-            List<int> values = new List<int>();
-            for (int i = 0; i < 5; i++)
+           
+                List<int> values = new List<int>();
+                for (int i = 0; i < 6; i++)
+                {
+                    values.Add(0); // initially sets values in list to zero
+                }
+
+            // lists used to store characters that are being seatchedd for
+            char[] lowCaseVowel = { 'a', 'e', 'i', 'o', 'u' };
+            char[] lowCaseCon = { 'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'x', 'z', 'w', 'y' };
+            char[] upCaseVowel = { 'A', 'E', 'I', 'O', 'U' };
+            char[] upCaseCon = { 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'X', 'Z', 'W', 'Y' };
+            char[] sentence = { '.', '!', '?' };
+
+            // counters that correspond to the number of characters being searched for and found in the text
+            int sentenceCount = 0;
+            int upVowelCount = 0;
+            int lowVowelCount = 0;
+            int lowConCount = 0;
+            int upConCount = 0;
+            int lowLetterCount = 0;
+            int upLetterCount = 0;
+
+            foreach (char i in input) // iterates through the text
             {
-                values.Add(0); // initially sets values in list to zero
-            }
+                if (sentence.Contains(i)) // if and else if statements used to search for specific characters  in text
+                {
+                    sentenceCount++; // if the character has been found in the text, the corresponding counter is increased by 1
 
-            len = input.Length;
+                }
+                else if (lowCaseVowel.Contains(i))
+                {
+                    lowVowelCount++;
+                    lowLetterCount++;
 
-            for (int i = 0; i < len; i++)
-            {
-                if (input[i] == '.')
-                {
-                    values[0]++; //increments the sentence counter
                 }
+                else if (upCaseVowel.Contains(i))
+                {
+                    upVowelCount++;
+                    upLetterCount++;
 
-                if (input[i] == 'a' || input[i] == 'i' || input[i] == 'u' || input[i] == 'o' || input[i] == 'e' || input[i] == 'A' || input[i] == 'I' || input[i] == 'U' || input[i] == 'E' || input[i] == 'O')
-                {
-                    values[1]++;
                 }
-                else if (input[i] >= 'a' && input[i] <= 'z' || input[i] >= 'A' && input[i] <= 'Z')
+                else if (lowCaseCon.Contains(i))
                 {
-                    values[2]++;
-                }
+                    lowConCount++;
+                    lowLetterCount++;
 
-                // upper & lower case counted
-                // maximum character counted
-                if (char.IsUpper(input[i]))
-                {
-                    values[3]++;
-                    values[5]++;
                 }
-                else if (char.IsLower(input[i]))
+                else if (upCaseCon.Contains(i))
                 {
-                    values[4]++;
-                    values[5]++;
+                    upConCount++;
+                    upLetterCount++;
+
                 }
             }
-
-            return values;
+            int totalChar = lowLetterCount + upLetterCount + sentenceCount; // finds total of all characters in text
+            int vowelCount = upVowelCount + lowVowelCount; // finds total of vowels found in text
+            int conCount = upConCount + lowConCount; // finds total of consonants
+            values[0] = sentenceCount; // sets the values variable to the corresponding counter
+            values[1] = vowelCount;
+            values[2] = conCount;
+            values[3] = upLetterCount;
+            values[4] = lowLetterCount;
+            values[5] = totalChar;
+            return values; // returns the values above
+            
         }
     }
 }

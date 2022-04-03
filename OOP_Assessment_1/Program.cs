@@ -1,4 +1,10 @@
-﻿namespace OOP_Assessment_1_Base_Code 
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace OOP_Assessment_1_Base_Code 
 {
     class Program 
     {
@@ -7,12 +13,14 @@
             List<int> parameters = new List<int>();
 
             Input input = new Input();
+            Analysis analysis = new Analysis();
 
             Console.WriteLine("enter text via file?\r\nenter text via keyboard?\r\nF or KB");
             bool optionCheck = true;
 
-            while(optionCheck == true)
+            while(optionCheck == true) // creates a loop in which only a valid choice will let the user progress any further
             {
+                string read;
                 string userInput = Console.ReadLine();
                 Console.WriteLine("option selected: "+userInput);
 
@@ -20,28 +28,30 @@
                 {
                     default:
                         Console.WriteLine("invalid option selected!");
+                        Console.WriteLine("try again");
                         optionCheck = true;
                         break;
 
-                    case "F":
+                    case "KB" or "kb": // choice to input text into the console directly instead of using a file
                         optionCheck = false;
-                        input.userText(userInput);
+                        read = input.userText(userInput);
+                        parameters = analysis.textAnalysis(read);
                         break;
 
-                    case "KB":
+                    case "F" or "f": // text input through a file
                         optionCheck = false;
-                        input.fileInput(userInput);
+                        read = input.fileInput(userInput);
+                        parameters = analysis.textAnalysis(read);
                         break;
                 }
             }
 
-            Analysis analysis = new Analysis();
-            analysis.textAnalysis(input.text);
+            
 
-            Statistics statistics = new Statistics(input.text, parameters);
-            parameters = analysis.textAnalysis(input.text);
+            Statistics statistics = new Statistics();
+            
 
-            statistics.TerminalOut(statistics);
+            statistics.TerminalOut(parameters); // method from statistics called to output analysed text
         }
     }
 }
